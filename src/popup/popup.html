@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AskAnyPage</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>AskAnyPage</h1>
+        <button id="settingsBtn" aria-label="Settings" title="Settings">
+          ⚙️
+        </button>
+      </header>
+
+      <!-- API Key Section (Hidden by default if key exists) -->
+      <section id="apiKeySection" class="hidden">
+        <div class="card">
+          <h2>Setup API Key</h2>
+          <p class="description">
+            Enter your Google Gemini API Key to get started.
+          </p>
+          <div class="input-group">
+            <input
+              type="password"
+              id="apiKeyInput"
+              placeholder="Paste API Key here..."
+            />
+            <button id="saveKeyBtn" class="primary-btn">Save Key</button>
+          </div>
+          <p class="tiny-text">Key is stored locally on your device.</p>
+        </div>
+      </section>
+
+      <!-- Main Interface -->
+      <section id="mainSection" class="hidden">
+        <!-- Analysis Status -->
+        <div id="statusCard" class="card status-card">
+          <div class="status-indicator" id="statusIndicator"></div>
+          <span id="statusText">Ready to analyze</span>
+          <button id="analyzeBtn" class="secondary-btn">Analyze Page</button>
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chatInterface" class="hidden">
+          <div id="messagesArea" class="messages-area">
+            <!-- Messages will appear here -->
+          </div>
+
+          <div class="input-area">
+            <textarea
+              id="questionInput"
+              placeholder="Ask about this page..."
+              rows="1"
+            ></textarea>
+            <button id="askBtn" class="primary-btn" disabled>Ask</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Loading Overlay -->
+      <div id="loader" class="loader-overlay hidden">
+        <div class="spinner"></div>
+        <p id="loadingText">Processing...</p>
+      </div>
+    </div>
+    <script type="module" src="./popup.ts"></script>
+  </body>
+</html>
