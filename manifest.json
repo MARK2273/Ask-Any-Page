@@ -5,7 +5,17 @@
   "description": "Analyze and ask questions about any webpage using Google Gemini.",
   "permissions": ["activeTab", "scripting", "storage"],
   "action": {
-    "default_popup": "src/popup/popup.html"
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "public/icons/icon.svg",
+      "48": "public/icons/icon.svg",
+      "128": "public/icons/icon.svg"
+    }
+  },
+  "icons": {
+    "16": "public/icons/icon.svg",
+    "48": "public/icons/icon.svg",
+    "128": "public/icons/icon.svg"
   },
   "background": {
     "service_worker": "src/background.ts",
