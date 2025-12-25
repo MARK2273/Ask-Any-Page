@@ -1,44 +1,84 @@
-# AskAnyPage Chrome Extension
+# AskAnyPage 🤖📄
 
-Analyze and ask questions about any webpage using Google Gemini AI.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
+![Gemini](https://img.shields.io/badge/Google%20Gemini-8E75B2?style=flat&logo=google&logoColor=white)
 
-## Installation
+**AskAnyPage** is a powerful Chrome Extension that transforms your browsing experience. With a single click, you can unlock the knowledge hidden in any webpage using Google's state-of-the-art **Gemini AI**.
 
-1. **Build the Extension**:
+> **"It's like having a smart assistant reading over your shoulder, ready to answer anything."**
 
+---
+
+## ✨ Features
+
+- **🔍 Smart Content Extraction**: Automatically identifies the "meat" of a page (articles, documentation, blogs), ignoring ads and sidebar noise.
+- **💬 Context-Aware Chat**: Ask questions like _"Summarize this"_, _"What are the key points?"_, or specific technical details, and get answers based _only_ on the current page.
+- **🎨 Premium UI**: A beautiful, modern interface featuring glassmorphism, smooth animations, and a distraction-free design.
+- **🔒 Privacy First**: Your API Key and data never leave your browser (except to go directly to Google). No middleman servers.
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+
+You need a **Google Gemini API Key**. It's free!
+
+- Go to [Google AI Studio](https://aistudio.google.com/).
+- Click **"Get API Key"**.
+
+### 2. Installation (Developer Mode)
+
+Since this is a developer build, you'll load it manually:
+
+1. **Download/Clone** this repository.
+2. Install dependencies and build:
    ```bash
    npm install
    npm run build
    ```
+3. Open Chrome and go to `chrome://extensions`.
+4. Enable **Developer mode** (top right).
+5. Click **Load unpacked**.
+6. Select the `dist` folder generated in your project.
 
-   This will create a `dist` directory.
+## 🛠️ Tech Stack
 
-2. **Load in Chrome**:
-   - Open Chrome and navigate to `chrome://extensions`.
-   - Enable "Developer mode" (top right toggle).
-   - Click "Load unpacked".
-   - Select the `dist` directory inside the project folder.
+- **Frontend**: HTML5, CSS3 (Custom Variables & Flexbox), TypeScript.
+- **Build Tool**: [Vite](https://vitejs.dev/) + [@crxjs/vite-plugin](https://crxjs.dev/).
+- **AI Model**: Google Gemini 1.5 Flash (via `@google/generative-ai`).
+- **Browser API**: Manifest V3 (Service Workers, Scripting, Storage).
 
-## Usage
+## 📖 Usage Guide
 
-1. **Setup API Key**:
+1. **Activate**: Click the AskAnyPage extension icon in your toolbar.
+2. **Setup**: Paste your Gemini API key (one-time setup).
+3. **Analyze**: Click the big **"Analyze Page"** button. The extension will confirm when it has "read" the site.
+4. **Chat**: Type questions like:
+   - _"Summarize the pricing section."_
+   - _"What is the main argument of this author?"_
+   - _"Extract all code examples into a list."_
 
-   - Get your API Key from [Google AI Studio](https://aistudio.google.com/).
-   - Click the extension icon.
-   - Enter your API Key and click "Save Key".
+## 🔒 Privacy Policy
 
-2. **Analyze Page**:
+We take privacy seriously.
 
-   - Navigate to any text-heavy webpage (news, blog, documentation).
-   - Click "Analyze Page" in the extension popup.
-   - Wait for the "Page Analyzed" status.
+- **Local Storage**: Your API Key is stored encrypted in your browser's local storage.
+- **Direct Communication**: Content extraction happens on your device. Requests are sent directly from your browser to Google's API servers.
+- **No Tracking**: We do not track your history, clicks, or question data.
 
-3. **Ask Questions**:
-   - Type your question in the chat box (e.g., "Summarize this article").
-   - Click "Ask" or press Enter.
+---
 
-## Privacy
+## 🤝 Contributing
 
-- Your API Key is stored locally on your device (`chrome.storage.local`).
-- Page content is sent ONLY to Google's Gemini API for analysis.
-- No data is collected by the extension developer.
+Contributions are welcome! Please fork the repository and submit a Pull Request.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+_Built with ❤️ by [Your Name]_
