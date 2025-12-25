@@ -15,10 +15,11 @@ const apiKeyInput = document.getElementById('apiKeyInput') as HTMLInputElement;
 const saveKeyBtn = document.getElementById('saveKeyBtn')!;
 const settingsBtn = document.getElementById('settingsBtn')!;
 
-// const statusCard = document.getElementById('statusCard')!;
 const statusIndicator = document.getElementById('statusIndicator')!;
 const statusText = document.getElementById('statusText')!;
 const analyzeBtn = document.getElementById('analyzeBtn') as HTMLButtonElement;
+const analyzeHeroBtn = document.getElementById('analyzeHeroBtn') as HTMLButtonElement;
+const emptyState = document.getElementById('emptyState')!;
 
 const chatInterface = document.getElementById('chatInterface')!;
 const messagesArea = document.getElementById('messagesArea')!;
@@ -38,11 +39,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Settings / API Key Management
 settingsBtn.addEventListener('click', async () => {
-    // Toggle between views or just force show settings
     if(apiKeySection.classList.contains('hidden')) {
         showSection('settings');
     } else {
-        await checkApiKey(); // go back if key exists
+        await checkApiKey();
     }
 });
 
@@ -75,15 +75,23 @@ function showSection(section: 'settings' | 'main') {
 }
 
 // Analysis Flow
-analyzeBtn.addEventListener('click', async () => {
+const triggerAnalysis = async () => {
   setLoading(true, 'Analyzing Page...');
   try {
     const response = await chrome.runtime.sendMessage({ action: 'ANALYZE_PAGE' }) as MessageResponse;
     if (response.success) {
       isAnalyzed = true;
       updateStatus(true, 'Page Analyzed');
-      analyzeBtn.textContent = 'Re-analyze';
+      analyzeBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg> Re-analyze`;
+      
+      // Hide empty state, show chat
+      emptyState.classList.add('hidden');
       chatInterface.classList.remove('hidden');
+      
+      // Initial greeting if empty
+      if (messagesArea.children.length === 0) {
+        addMessage('I have analyzed this page. What would you like to know?', 'bot');
+      }
     } else {
       updateStatus(false, response.error || 'Analysis failed');
     }
@@ -92,11 +100,14 @@ analyzeBtn.addEventListener('click', async () => {
   } finally {
     setLoading(false);
   }
-});
+};
+
+analyzeBtn.addEventListener('click', triggerAnalysis);
+analyzeHeroBtn.addEventListener('click', triggerAnalysis);
 
 function updateStatus(success: boolean, text: string) {
   statusText.textContent = text;
-  statusIndicator.className = 'status-indicator ' + (success ? 'ready' : 'error');
+  statusIndicator.className = 'dot ' + (success ? 'ready' : 'error');
 }
 
 // Chat Flow
@@ -110,6 +121,9 @@ questionInput.addEventListener('keypress', (e) => {
 
 questionInput.addEventListener('input', () => {
     askBtn.disabled = !questionInput.value.trim();
+    // Auto grow
+    questionInput.style.height = 'auto';
+    questionInput.style.height = Math.min(questionInput.scrollHeight, 100) + 'px';
 });
 
 async function handleAsk() {
@@ -123,6 +137,7 @@ async function handleAsk() {
 
   addMessage(question, 'user');
   questionInput.value = '';
+  questionInput.style.height = 'auto'; // Reset height
   askBtn.disabled = true;
 
   setLoading(true, 'Thinking...');
@@ -150,12 +165,9 @@ async function handleAsk() {
 function addMessage(text: string, type: 'user' | 'bot' | 'error') {
   const msgDiv = document.createElement('div');
   msgDiv.className = `message ${type}`;
-  // Simple markdown-ish bold handling or strictly text for safety
-  // For improved security, use textContent, but if we want markdown, we'd need a parser.
-  // We'll stick to textContent for V1 security.
   msgDiv.textContent = text; 
   messagesArea.appendChild(msgDiv);
-  messagesArea.scrollTop = messagesArea.scrollHeight;
+  messagesArea.scrollTo({ top: messagesArea.scrollHeight, behavior: 'smooth' });
 }
 
 function setLoading(isLoading: boolean, text?: string) {

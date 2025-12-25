@@ -1,71 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AskAnyPage</title>
-    <link rel="stylesheet" href="popup.css" />
-  </head>
-  <body>
-    <div class="container">
-      <header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AskAnyPage</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="glass-header">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 4V4.02M12 20C12 20 8 16 8 12C8 8 12 8 12 8s4 4 4 8c0 4-4 8-4 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         <h1>AskAnyPage</h1>
-        <button id="settingsBtn" aria-label="Settings" title="Settings">
-          ⚙️
-        </button>
-      </header>
+      </div>
+      <button id="settingsBtn" class="icon-btn" aria-label="Settings" title="Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
+    </header>
 
-      <!-- API Key Section (Hidden by default if key exists) -->
-      <section id="apiKeySection" class="hidden">
-        <div class="card">
-          <h2>Setup API Key</h2>
-          <p class="description">
-            Enter your Google Gemini API Key to get started.
-          </p>
-          <div class="input-group">
-            <input
-              type="password"
-              id="apiKeyInput"
-              placeholder="Paste API Key here..."
-            />
-            <button id="saveKeyBtn" class="primary-btn">Save Key</button>
+    <main class="content-area">
+      <!-- API Key Section -->
+      <section id="apiKeySection" class="view-section hidden smooth-fade">
+        <div class="setup-card">
+          <div class="icon-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           </div>
-          <p class="tiny-text">Key is stored locally on your device.</p>
+          <h2>API Access</h2>
+          <p>Enter your Gemini API Key to enable AI analysis.</p>
+          <div class="input-wrapper">
+            <input type="password" id="apiKeyInput" placeholder="Paste your key here..." />
+            <button id="saveKeyBtn" class="gradient-btn-small">Link Key</button>
+          </div>
+          <a href="https://aistudio.google.com/" target="_blank" class="link-subtle">Get a key from Google AI Studio</a>
         </div>
       </section>
 
       <!-- Main Interface -->
-      <section id="mainSection" class="hidden">
-        <!-- Analysis Status -->
-        <div id="statusCard" class="card status-card">
-          <div class="status-indicator" id="statusIndicator"></div>
-          <span id="statusText">Ready to analyze</span>
-          <button id="analyzeBtn" class="secondary-btn">Analyze Page</button>
+      <section id="mainSection" class="view-section hidden smooth-fade">
+        <div class="status-bar">
+          <div class="status-pill" id="statusPill">
+            <span class="dot" id="statusIndicator"></span>
+            <span id="statusText">Ready</span>
+          </div>
+          <button id="analyzeBtn" class="action-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            Re-analyze
+          </button>
+        </div>
+
+        <!-- Empty State / Placeholder -->
+        <div id="emptyState" class="empty-state">
+          <div class="illustration">✨</div>
+          <h3>Ask Any Page</h3>
+          <p>Analyze this page to start chatting with its content.</p>
+          <button id="analyzeHeroBtn" class="gradient-btn-large">
+            Analyze Page
+          </button>
         </div>
 
         <!-- Chat Area -->
-        <div id="chatInterface" class="hidden">
-          <div id="messagesArea" class="messages-area">
-            <!-- Messages will appear here -->
+        <div id="chatInterface" class="chat-interface hidden">
+          <div id="messagesArea" class="messages-scroll">
+            <!-- Messages go here -->
           </div>
-
-          <div class="input-area">
-            <textarea
-              id="questionInput"
-              placeholder="Ask about this page..."
-              rows="1"
-            ></textarea>
-            <button id="askBtn" class="primary-btn" disabled>Ask</button>
+          
+          <div class="input-container glass-panel">
+            <textarea id="questionInput" placeholder="Ask a question..." rows="1"></textarea>
+            <button id="askBtn" class="send-btn" disabled>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
           </div>
         </div>
       </section>
+    </main>
 
-      <!-- Loading Overlay -->
-      <div id="loader" class="loader-overlay hidden">
-        <div class="spinner"></div>
-        <p id="loadingText">Processing...</p>
-      </div>
+    <!-- Loading Overlay -->
+    <div id="loader" class="loader-overlay hidden">
+      <div class="pulse-ring"></div>
+      <p id="loadingText">Analyzing content...</p>
     </div>
-    <script type="module" src="./popup.ts"></script>
-  </body>
+  </div>
+  <script type="module" src="./popup.ts"></script>
+</body>
 </html>
